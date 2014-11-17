@@ -4,8 +4,11 @@ body {
     background: url("images/bg.png") repeat;
 }
 
-header {
-    text-align: center;
+#logo {
+    width: 60px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
 p {
@@ -15,13 +18,6 @@ p {
 h1 {
     font-weight: normal;
     text-shadow: 4px 4px 4px #aaa;
-}
-
-#logo {
-    width: 60px;
-    position: absolute;
-    top: 20px;
-    right: 20px;
 }
 
 a:link {
@@ -35,4 +31,8 @@ a:hover {
 }
 a:active {
     color: #d40;
+}
+
+header {
+    text-align: center;
 }
