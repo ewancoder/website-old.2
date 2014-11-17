@@ -13,6 +13,4 @@ function getText(myUrl){
     return result;
 }
 
-var markdown_source = getText('mytext')
-var output = converter.makeHtml(markdown_source);
-document.write(output);
+document.write(converter.makeHtml(getText('pages/1.md')));
