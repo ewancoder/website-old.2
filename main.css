@@ -1,4 +1,5 @@
 body {
+    font-family: 'Times New Roman', serif;
     margin: 3%;
     background: url("images/bg.png") repeat;
 }
@@ -8,12 +9,10 @@ header {
 }
 
 p {
-    font-family: 'Neucha', serif;
     font-size: 24px;
 }
 
 h1 {
-    font-family: 'Times New Roman', serif;
     font-weight: normal;
     text-shadow: 4px 4px 4px #aaa;
 }
