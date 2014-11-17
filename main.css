@@ -1,0 +1,39 @@
+body {
+    margin: 3%;
+    background: url("images/bg.png") repeat;
+}
+
+header {
+    text-align: center;
+}
+
+p {
+    font-family: 'Neucha', serif;
+    font-size: 24px;
+}
+
+h1 {
+    font-family: 'Times New Roman', serif;
+    font-weight: normal;
+    text-shadow: 4px 4px 4px #aaa;
+}
+
+#logo {
+    width: 60px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+a:link {
+    color: #000;
+}
+a:visited {
+    color: #666;
+}
+a:hover {
+    color: #999;
+}
+a:active {
+    color: #d40;
+}
