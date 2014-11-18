@@ -96,3 +96,11 @@ sup {
 .readMoreButton {
     font-size: 1.5em;
 }
+
+section img {
+    width: 50%;
+}
+
+span {
+    color: #f00;
+}

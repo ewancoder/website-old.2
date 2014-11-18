@@ -42,6 +42,7 @@ function loadOne(num){
     single = true
     $("header").slideUp('slow');
     $("section:not(#node" + num + "):not(#full" + num + ")").slideUp('slow');
+    $(".readMoreButton").fadeOut('slow');
     $("#node" + num).slideDown('slow');
     $("#full" + num).slideDown('slow');
     $("#back").fadeIn('slow');
@@ -49,6 +50,7 @@ function loadOne(num){
 }
 
 function goBack(){
+    $(".readMoreButton").fadeIn('slow');
     $("header").slideDown('slow', function(){
         $("html, body").animate({scrollTop: $("#node" + backup).offset().top}, 'medium');
     });
