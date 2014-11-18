@@ -9,30 +9,31 @@ body {
 }
 
 a:link {
-    color: #000;
+    color: #a00;
     text-decoration: none;
 }
 a:visited {
-    color: #666;
-}
-a:hover {
-    color: #999;
-}
-a:active {
-    color: #d40;
-}
-
-p a:link {
-    color: #a00;
-}
-p a:visited {
     color: #fa8;
 }
-p a:hover {
+a:hover {
     color: #f50;
 }
-p a:active {
+a:active {
     color: #f90;
+}
+
+header a:link {
+    color: #000;
+    text-decoration: none;
+}
+header a:visited {
+    color: #666;
+}
+header a:hover {
+    color: #999;
+}
+header a:active {
+    color: #d40;
 }
 
 #logo {
@@ -77,4 +78,13 @@ section {
 footer p {
     font-size: 0.8em;
     text-align: center;
+}
+
+li {
+    font-size: 1.5em;
+}
+
+sup {
+    font-size: 0.6em;
+    color: #555;
 }
