@@ -50,15 +50,15 @@ function loadOne(num){
 }
 
 function goBack(){
-    $("section:not(#node1):not(#loading)").slideUp('slow');
-    $("header").slideDown('slow');
+    $("section:not(#node1):not(#node2):not(#node3):not(#loading)").slideUp('slow');
+    $("header").slideDown('slow', function(){
+        $("html, body").animate({scrollTop: $("main").offset().top}, 'medium');
+    });
     for (i = 1; i <= INITIAL; i++){
         $("#node" + i).slideDown('slow');
     }
     $("#loading").slideDown('slow');
-    //$("html, body").animate({scrollTop: $("main").offset().top}, 'medium');
-    $("html, body").animate({scrollTop: 0}, 'medium');
-    //current = count - 1;
+    //$("html, body").animate({scrollTop: 0}, 'medium');
     if (current > 0){
         $("#loading").html('Loading more...');
     }
