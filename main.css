@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Neucha";
+    src: url(fonts/Neucha.ttf) format("truetype");
+}
+
 body {
     font-family: 'Times New Roman', serif;
     background: url("images/bg.png") repeat;
@@ -15,11 +20,7 @@ body {
 }
 
 p {
-    font-size: 24px;
-}
-
-section p {
-    font-family: 'Comic Sans MS';
+    font-size: 1.4em;
 }
 
 h1 {
@@ -43,5 +44,14 @@ a:active {
 }
 
 header {
+    text-align: center;
+}
+
+section {
+    font-family: 'Neucha';
+}
+
+footer {
+    font-size: 0.8em;
     text-align: center;
 }
