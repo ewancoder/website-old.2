@@ -30,11 +30,9 @@ function loadMore(num){
         preface = str.split("<h4>")[0];
     }
     $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#node" + (count - num));
-    if (num < (count - 2)){
-        $("#node" + (count - num + 1)).slideDown('slow');
-    }
     $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>");
     if (full != undefined){
+        $("#node" + (count - num + 1)).append("<a class='readMoreButton' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>Read more</a>");
         $("<section id='full" + (count - num + 1) + "' hidden>" + full + "</section>").insertAfter("#node" + (count - num + 1));
     }
 }

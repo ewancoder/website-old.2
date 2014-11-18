@@ -71,6 +71,10 @@ header {
     text-align: center;
 }
 
+header p {
+    text-align: center;
+}
+
 section {
     font-family: 'Neucha';
 }
@@ -87,4 +91,8 @@ li {
 sup {
     font-size: 0.6em;
     color: #555;
+}
+
+.readMoreButton {
+    font-size: 1.5em;
 }
