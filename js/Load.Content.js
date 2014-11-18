@@ -46,6 +46,7 @@ function loadOne(num){
     $("#node" + num).slideDown('slow');
     $("#full" + num).slideDown('slow');
     $("#back").fadeIn('slow');
+    $("html, body").animate({scrollTop: 0}, 'medium');
 }
 
 function goBack(){
@@ -55,7 +56,8 @@ function goBack(){
         $("#node" + i).slideDown('slow');
     }
     $("#loading").slideDown('slow');
-    $("html, body").animate({scrollTop: $("body").offset().top}, 'medium');
+    //$("html, body").animate({scrollTop: $("main").offset().top}, 'medium');
+    $("html, body").animate({scrollTop: 0}, 'medium');
     //current = count - 1;
     if (current > 0){
         $("#loading").html('Loading more...');
