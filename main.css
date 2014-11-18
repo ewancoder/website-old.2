@@ -98,9 +98,18 @@ sup {
 }
 
 section img {
-    width: 50%;
+    min-width: 8em;
+    max-width: 15em;
+    min-height: 4em;
+    max-height: 8em;
+    margin: 0 auto;
+    display: block;
 }
 
 span {
     color: #f00;
+}
+
+blockquote {
+    color: #050;
 }
