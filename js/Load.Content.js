@@ -40,6 +40,7 @@ function loadMore(num){
 }
 
 function loadOne(num){
+    backup = num; //backup variable to return to
     single = true
     $("header").slideUp('slow');
     $("section:not(#node" + num + "):not(#full" + num + ")").slideUp('slow');
@@ -50,15 +51,14 @@ function loadOne(num){
 }
 
 function goBack(){
-    $("section:not(#node1):not(#node2):not(#node3):not(#loading)").slideUp('slow');
     $("header").slideDown('slow', function(){
-        $("html, body").animate({scrollTop: $("main").offset().top}, 'medium');
+        $("html, body").animate({scrollTop: $("#node" + backup).offset().top}, 'medium');
     });
-    for (i = 1; i <= INITIAL; i++){
+    last = count - current;
+    for (i = 1; i <= last; i++){
         $("#node" + i).slideDown('slow');
     }
     $("#loading").slideDown('slow');
-    //$("html, body").animate({scrollTop: 0}, 'medium');
     if (current > 0){
         $("#loading").html('Loading more...');
     }
