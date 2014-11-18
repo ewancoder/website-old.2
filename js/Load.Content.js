@@ -13,4 +13,4 @@ function getText(myUrl){
     return result;
 }
 
-document.write(converter.makeHtml(getText('pages/1.md')));
+$("#node").append(converter.makeHtml(getText('pages/1.md')))
