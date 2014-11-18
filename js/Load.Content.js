@@ -22,26 +22,34 @@ function loadMore(num){
     if (num <= 1) {
         $("#loading").html("There is nothing more to load.");
     }
-    html = converter.makeHtml(getText('https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md'));
-    $("<section id='node" + (count - num + 1) + "' hidden>" + html + "<hr /></section>").insertAfter("#node" + (count - num)).slideDown('slow');
+    str = converter.makeHtml(getText('https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md'));
+    preface = str.split("<h4>")[0];
+    full = str.split("<h4>#</h4>")[1];
+    $("<section id='node" + (count - num + 1) + "' hidden>" + preface + "<hr /></section>").insertAfter("#node" + (count - num)).slideDown('slow');
     $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>");
+    $("<section id='full" + (count - num + 1) + "' hidden>" + full + "</section>").insertAfter("#node" + (count - num + 1));
 }
 
 function loadOne(num){
-    $("section:not(#node" + num + ")").slideUp('slow');
+    $("header").slideUp('slow');
+    $("section:not(#node" + num + "):not(#full" + num + ")").slideUp('slow');
+    $("#node" + num).slideDown('slow');
+    $("#full" + num).slideDown('slow');
     $("#back").fadeIn('slow');
     single = true
 }
 
 function goBack(){
     $("section:not(#node1):not(#loading)").slideUp('slow');
+    $("header").slideDown('slow');
     $("#node1").slideDown('slow');
     $("#loading").slideDown('slow');
-    $("html, body").animate({scrollTop: $("main").offset().top}, 'medium');
+    $("html, body").animate({scrollTop: $("body").offset().top}, 'medium');
     current = count - 1;
     if (current > 0){
         $("#loading").html('Loading more...');
     }
+    $("#back").fadeOut('slow');
     single = false;
 }
 
@@ -60,9 +68,7 @@ $(window).load(function(){
 });
 
 $(window).scroll(function() {
-    alert(single);
     if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-        alert(single);
         if (single == false){
             if (current > 0){
                 loadMore(current);
