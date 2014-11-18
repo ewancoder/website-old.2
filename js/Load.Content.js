@@ -13,4 +13,19 @@ function getText(myUrl){
     return result;
 }
 
-$("#node").append(converter.makeHtml(getText('pages/1.md')))
+function checkFile(num){ //for less ajax-queries, more speedy-output
+    var http = new XMLHttpRequest();
+    http.open('HEAD', 'pages/' + num + '.md', false);
+    http.send();
+    return http.status!=404;
+}
+
+var count = 1;
+while (checkFile(count) == true){
+    count++;
+}
+count--;
+
+for (i = count; i > 0; i--){
+    $("<section id='node" + (count - i + 1) + "'>" + converter.makeHtml(getText('pages/' + i + '.md')) + "<hr /></section>").insertAfter("#node" + (count - i));
+}
