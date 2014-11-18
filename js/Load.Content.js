@@ -25,7 +25,11 @@ function loadMore(num){
     str = converter.makeHtml(getText('https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md'));
     preface = str.split("<h4>")[0];
     full = str.split("<h4>#</h4>")[1];
-    $("<section id='node" + (count - num + 1) + "' hidden>" + preface + "<hr /></section>").insertAfter("#node" + (count - num)).slideDown('slow');
+    if (num < (count - 2)){
+        $("<section id='node" + (count - num + 1) + "' hidden>" + preface + "<hr /></section>").insertAfter("#node" + (count - num)).slideDown('slow');
+    } else {
+        $("<section id='node" + (count - num + 1) + "' hidden>" + preface + "<hr /></section>").insertAfter("#node" + (count - num));
+    }
     $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>");
     $("<section id='full" + (count - num + 1) + "' hidden>" + full + "</section>").insertAfter("#node" + (count - num + 1));
 }
@@ -63,8 +67,17 @@ $(window).load(function(){
     }
     count--;
     current = count;
-    loadMore(current);
-    current--;
+    for (i = 1; i < 4; i++){
+        if (current == 0) {
+            break
+        }
+        loadMore(current);
+        current--;
+    }
+
+    for (i = 1; i < 4; i++){
+        $("#node" + i).slideDown('slow');
+    }
 });
 
 $(window).scroll(function() {
