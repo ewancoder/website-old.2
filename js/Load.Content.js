@@ -23,33 +23,40 @@ function loadMore(num){
         $("#loading").html("There is nothing more to load.");
     }
     str = converter.makeHtml(getText('https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md'));
-    preface = str.split("<h4>")[0];
     full = str.split("<h4>#</h4>")[1];
-    if (num < (count - 2)){
-        $("<section id='node" + (count - num + 1) + "' hidden>" + preface + "<hr /></section>").insertAfter("#node" + (count - num)).slideDown('slow');
+    if (full == undefined){
+        preface = str;
     } else {
-        $("<section id='node" + (count - num + 1) + "' hidden>" + preface + "<hr /></section>").insertAfter("#node" + (count - num));
+        preface = str.split("<h4>")[0];
+    }
+    $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#node" + (count - num));
+    if (num < (count - 2)){
+        $("#node" + (count - num + 1)).slideDown('slow');
     }
     $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>");
-    $("<section id='full" + (count - num + 1) + "' hidden>" + full + "</section>").insertAfter("#node" + (count - num + 1));
+    if (full != undefined){
+        $("<section id='full" + (count - num + 1) + "' hidden>" + full + "</section>").insertAfter("#node" + (count - num + 1));
+    }
 }
 
 function loadOne(num){
+    single = true
     $("header").slideUp('slow');
     $("section:not(#node" + num + "):not(#full" + num + ")").slideUp('slow');
     $("#node" + num).slideDown('slow');
     $("#full" + num).slideDown('slow');
     $("#back").fadeIn('slow');
-    single = true
 }
 
 function goBack(){
     $("section:not(#node1):not(#loading)").slideUp('slow');
     $("header").slideDown('slow');
-    $("#node1").slideDown('slow');
+    for (i = 1; i <= INITIAL; i++){
+        $("#node" + i).slideDown('slow');
+    }
     $("#loading").slideDown('slow');
     $("html, body").animate({scrollTop: $("body").offset().top}, 'medium');
-    current = count - 1;
+    //current = count - 1;
     if (current > 0){
         $("#loading").html('Loading more...');
     }
@@ -60,6 +67,7 @@ function goBack(){
 var converter = new Markdown.Converter();
 var count = 1;
 var single = false; //If true, loads only ONE content
+var INITIAL = 3; //Initial count of nodes
 
 $(window).load(function(){
     while (checkFile(count) == true){
@@ -67,7 +75,7 @@ $(window).load(function(){
     }
     count--;
     current = count;
-    for (i = 1; i < 4; i++){
+    for (i = 1; i < INITIAL+1; i++){
         if (current == 0) {
             break
         }
@@ -75,7 +83,7 @@ $(window).load(function(){
         current--;
     }
 
-    for (i = 1; i < 4; i++){
+    for (i = 1; i < INITIAL+1; i++){
         $("#node" + i).slideDown('slow');
     }
 });
