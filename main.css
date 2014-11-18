@@ -8,11 +8,32 @@ body {
     background: url("images/bg.png") repeat;
 }
 
+a:link {
+    color: #000;
+    text-decoration: none;
+}
+a:visited {
+    color: #666;
+}
+a:hover {
+    color: #999;
+}
+a:active {
+    color: #d40;
+}
+
 #logo {
     width: 60px;
     position: absolute;
     top: 20px;
     right: 20px;
+}
+
+#back {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    opacity: 0.6;
 }
 
 #slide {
@@ -29,19 +50,6 @@ h1 {
     font-weight: normal;
     text-shadow: 4px 4px 4px #aaa;
     text-align: center;
-}
-
-a:link {
-    color: #000;
-}
-a:visited {
-    color: #666;
-}
-a:hover {
-    color: #999;
-}
-a:active {
-    color: #d40;
 }
 
 header {

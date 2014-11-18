@@ -23,11 +23,31 @@ function loadMore(num){
         $("#loading").html("There is nothing more to load.");
     }
     html = converter.makeHtml(getText('https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md'));
-    $("<section x=-100 hidden id='node" + (count - num + 1) + "'>" + html + "<hr /></section>").insertAfter("#node" + (count - num)).slideDown('slow');
+    $("<section id='node" + (count - num + 1) + "' hidden>" + html + "<hr /></section>").insertAfter("#node" + (count - num)).slideDown('slow');
+    $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>");
+}
+
+function loadOne(num){
+    $("section:not(#node" + num + ")").slideUp('slow');
+    $("#back").fadeIn('slow');
+    single = true
+}
+
+function goBack(){
+    $("section:not(#node1):not(#loading)").slideUp('slow');
+    $("#node1").slideDown('slow');
+    $("#loading").slideDown('slow');
+    $("html, body").animate({scrollTop: $("main").offset().top}, 'medium');
+    current = count - 1;
+    if (current > 0){
+        $("#loading").html('Loading more...');
+    }
+    single = false;
 }
 
 var converter = new Markdown.Converter();
 var count = 1;
+var single = false; //If true, loads only ONE content
 
 $(window).load(function(){
     while (checkFile(count) == true){
@@ -40,11 +60,13 @@ $(window).load(function(){
 
     $(window).scroll(function() {
         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-            if (current > 0){
-                loadMore(current);
-                current--;
-            } else {
-                $("#loading").html("There is nothing more to load.");
+            if (single == false){
+                if (current > 0){
+                    loadMore(current);
+                    current--;
+                } else {
+                    $("#loading").html("There is nothing more to load.");
+                }
             }
         }
     });
