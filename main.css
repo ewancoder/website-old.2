@@ -8,17 +8,17 @@ body {
     background: url("images/bg.png") repeat;
 }
 
-a:link {
+section a:link {
     color: #a00;
     text-decoration: none;
 }
-a:visited {
+section a:visited {
     color: #fa8;
 }
-a:hover {
+section a:hover {
     color: #f50;
 }
-a:active {
+section a:active {
     color: #f90;
 }
 
@@ -36,6 +36,20 @@ header a:active {
     color: #d40;
 }
 
+a#back:link {
+    color: #666;
+}
+a#back:visited {
+    color: #666;
+}
+a#back:hover {
+    color: #000;
+}
+a#back:active {
+    color: #d40;
+}
+
+
 #logo {
     width: 60px;
     position: absolute;
@@ -48,7 +62,6 @@ header a:active {
     top: 20px;
     left: 20px;
     opacity: 0.6;
-    color: #666;
 }
 
 #slide {
