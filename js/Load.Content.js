@@ -57,17 +57,19 @@ $(window).load(function(){
     current = count;
     loadMore(current);
     current--;
+});
 
-    $(window).scroll(function() {
-        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-            if (single == false){
-                if (current > 0){
-                    loadMore(current);
-                    current--;
-                } else {
-                    $("#loading").html("There is nothing more to load.");
-                }
+$(window).scroll(function() {
+    alert(single);
+    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+        alert(single);
+        if (single == false){
+            if (current > 0){
+                loadMore(current);
+                current--;
+            } else {
+                $("#loading").html("There is nothing more to load.");
             }
         }
-    });
+    }
 });
