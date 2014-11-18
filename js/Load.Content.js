@@ -25,7 +25,22 @@ while (checkFile(count) == true){
     count++;
 }
 count--;
+current = count;
 
-for (i = count; i > 0; i--){
-    $("<section id='node" + (count - i + 1) + "'>" + converter.makeHtml(getText('https://dl.dropboxusercontent.com/u/70091792/Pages/' + i + '.md')) + "<hr /></section>").insertAfter("#node" + (count - i));
+loadMore(current);
+current--;
+
+$(window).scroll(function() {
+    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+        if (current > 0){
+            loadMore(current);
+            current--;
+        } else {
+            $("#loading").html("There is nothing more to load.");
+        }
+    }
+});
+
+function loadMore(num){
+    $("<section id='node" + (count - num + 1) + "'>" + converter.makeHtml(getText('https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md')) + "<hr /></section>").insertAfter("#node" + (count - num));
 }
