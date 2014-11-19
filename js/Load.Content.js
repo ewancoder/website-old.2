@@ -47,9 +47,18 @@ function loadOne(num){
     $("#full" + num).slideDown('slow');
     $("#download").attr("href", "https://dl.dropboxusercontent.com/u/70091792/Pages/" + (count - num + 1) + ".md");
     $("#back").fadeIn('slow');
-    $("#previous").fadeIn('slow');
-    $("#next").fadeIn('slow');
     $("#download").fadeIn('slow');
+
+    if (backup > 1) {
+        $("#next").fadeIn('slow');
+    } else {
+        $("#next").fadeOut('slow');
+    }
+    if (backup < count) {
+        $("#previous").fadeIn('slow');
+    } else {
+        $("#previous").fadeOut("slow");
+    }
     $("html, body").animate({scrollTop: 0}, 'medium');
 }
 
@@ -68,10 +77,22 @@ function goBack(){
         $("#loading").html('Loading more...');
     }
     $("#back").fadeOut('slow');
+    $("#download").fadeOut('slow');
     $("#previous").fadeOut('slow');
     $("#next").fadeOut('slow');
-    $("#download").fadeOut('slow');
     single = false;
+}
+
+function goNext(){
+    if (backup > 1){
+        loadOne(backup - 1);
+    }
+}
+
+function goPrevious(){
+    if (backup < count){
+        loadOne(backup + 1);
+    }
 }
 
 var converter = new Markdown.Converter();
@@ -109,4 +130,11 @@ $(window).scroll(function() {
             }
         }
     }
+});
+
+$("#next").hover(function(){
+    $("#description").show();
+    $("#description").html('haha');
+}, function(){
+    //out
 });
