@@ -65,7 +65,7 @@ function goBack(){
     }
     $("#loading").slideDown('slow');
     if (current > 0){
-        $("#loading").html('<i class="fa fa-refresh fa-spin></i> Loading more...');
+        $("#loading").html('Loading more...');
     }
     $("#back").fadeOut('slow');
     $("#previous").fadeOut('slow');
