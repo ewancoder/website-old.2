@@ -139,3 +139,18 @@ span {
 blockquote {
     color: #050;
 }
+
+#description {
+    font-family: "Neucha";
+    font-size: 1.4em;
+    color: #f00;
+    border: 2px solid;
+    border-radius: 10px;
+    background-color: #fff;
+    text-align: center;
+    position: fixed;
+    left: 50%;
+    margin-left: -7em;
+    width: 14em;
+    bottom: 20px;
+}

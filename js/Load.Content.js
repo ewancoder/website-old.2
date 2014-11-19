@@ -29,7 +29,12 @@ function loadMore(num){
     } else {
         preface = str.split("<h4>")[0];
     }
-    $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#node" + (count - num));
+    if ((count - num) < INITIAL){
+        $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#node" + (count - num));
+    } else {
+        $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#node" + (count - num)).slideDown('slow');
+    }
+    //for flawless effects
     $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>");
     if (full != undefined){
         $("#node" + (count - num + 1)).append("<a class='readMoreButton' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>Read more</a>");
@@ -133,8 +138,15 @@ $(window).scroll(function() {
 });
 
 $("#next").hover(function(){
-    $("#description").show();
-    $("#description").html('haha');
+    $("#description").html($("#node" + (backup - 1) + " h1").html());
+    $("#description").fadeIn('fast');
 }, function(){
-    //out
+    $("#description").fadeOut('fast');
+});
+
+$("#previous").hover(function(){
+    $("#description").html($("#node" + (backup + 1) + " h1").html());
+    $("#description").fadeIn('fast');
+}, function(){
+    $("#description").fadeOut('fast');
 });
