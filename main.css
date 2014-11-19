@@ -36,29 +36,16 @@ header a:active {
     color: #d40;
 }
 
-a#back:link {
+a#back:link, a#previous:link, a#next:link, a#download:link {
     color: #666;
 }
-a#back:visited {
+a#back:visited, a#previous:visited, a#next:visited, a#download:visited {
     color: #666;
 }
-a#back:hover {
+a#back:hover, a#previous:hover, a#next:hover, a#download:hover {
     color: #000;
 }
-a#back:active {
-    color: #d40;
-}
-
-a#download:link {
-    color: #666;
-}
-a#download:visited {
-    color: #666;
-}
-a#download:hover {
-    color: #000;
-}
-a#download:active {
+a#back:active, a#previous:active, a#next:active, a#download:active {
     color: #d40;
 }
 
@@ -66,6 +53,20 @@ a#download:active {
     position: fixed;
     top: 20px;
     left: 20px;
+    opacity: 0.6;
+}
+
+#previous {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    opacity: 0.6;
+}
+
+#next {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
     opacity: 0.6;
 }
 

@@ -12,6 +12,8 @@
   </head>
   <body>
     <a id='back' onclick='goBack()' href='javascript:void(0);' hidden><i class="fa fa-home fa-5x"></i></a>
+    <a id='next' onclick='goNext()' href='javascript:void(0);' hidden><i class="fa fa-mail-forward fa-5x"></i></a>
+    <a id='previous' onclick='goPrevious()' href='javascript:void(0);' hidden><i class="fa fa-mail-reply fa-5x"></i></a>
     <a id='download' hidden><i class="fa fa-download fa-5x"></i></a>
     <header>
       <h1>Hello there!</h1>
@@ -31,7 +33,7 @@
     </main>
     <footer>
       <hr/>
-      <section id='loading'>Loading more...</section>
+      <section id='loading'><i class="fa fa-refresh fa-spin"></i> Loading more...</section>
       <p>Copyright <i class="fa fa-copyright"></i> EwanCoder, 2014</p>
     </footer>
     <script src="js/jquery.min.js"></script>

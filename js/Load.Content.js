@@ -47,6 +47,8 @@ function loadOne(num){
     $("#full" + num).slideDown('slow');
     $("#download").attr("href", "https://dl.dropboxusercontent.com/u/70091792/Pages/" + (count - num + 1) + ".md");
     $("#back").fadeIn('slow');
+    $("#previous").fadeIn('slow');
+    $("#next").fadeIn('slow');
     $("#download").fadeIn('slow');
     $("html, body").animate({scrollTop: 0}, 'medium');
 }
@@ -63,9 +65,11 @@ function goBack(){
     }
     $("#loading").slideDown('slow');
     if (current > 0){
-        $("#loading").html('Loading more...');
+        $("#loading").html('<i class="fa fa-refresh fa-spin></i> Loading more...');
     }
     $("#back").fadeOut('slow');
+    $("#previous").fadeOut('slow');
+    $("#next").fadeOut('slow');
     $("#download").fadeOut('slow');
     single = false;
 }
