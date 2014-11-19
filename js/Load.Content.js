@@ -29,17 +29,21 @@ function loadMore(num){
     } else {
         preface = str.split("<h4>")[0];
     }
-    //if ((count - num) < INITIAL){
+    if (count - num > 0){
         $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#node" + (count - num));
-    //} else {
-    //    $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#node" + (count - num)).slideDown('slow');
-    //}
+    } else {
+        $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#archive");
+    }
     //for flawless effects
     $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>");
     if (full != undefined){
         $("#node" + (count - num + 1)).append("<a class='readMoreButton' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>Read more</a>");
         $("<section id='full" + (count - num + 1) + "' hidden>" + full + "</section>").insertAfter("#node" + (count - num + 1));
     }
+
+    date = $("#node" + (count - num + 1) + " h1 sup").text().replace('[', '').replace(']', '');
+    caption = $("#node" + (count - num + 1) + " h1").text().split(" [")[0];
+    $("#archive").append("<a class='hint' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>" + date + "</a>");
 }
 
 function loadOne(num){
@@ -77,6 +81,7 @@ function loadOne(num){
 
 function goBack(){
     $(".readMoreButton").fadeIn('slow');
+    $("#archive").slideDown('slow');
     $("header").slideDown('slow', function(){
         $("html, body").animate({scrollTop: $("#node" + backup).offset().top}, 'medium');
     });
@@ -119,7 +124,7 @@ $(window).load(function(){
     }
     count--;
     current = count;
-    for (i = 1; i < INITIAL+1; i++){
+    for (i = 1; i < count; i++){
         if (current == 0) {
             break
         }
