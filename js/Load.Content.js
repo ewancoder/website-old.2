@@ -29,11 +29,11 @@ function loadMore(num){
     } else {
         preface = str.split("<h4>")[0];
     }
-    if ((count - num) < INITIAL){
+    //if ((count - num) < INITIAL){
         $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#node" + (count - num));
-    } else {
-        $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#node" + (count - num)).slideDown('slow');
-    }
+    //} else {
+    //    $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#node" + (count - num)).slideDown('slow');
+    //}
     //for flawless effects
     $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>");
     if (full != undefined){
@@ -65,6 +65,14 @@ function loadOne(num){
         $("#previous").fadeOut("slow");
     }
     $("html, body").animate({scrollTop: 0}, 'medium');
+
+    //Load NEXT if not loaded
+    if (current == (count - num)){
+        loadMore(current);
+        current--;
+    } else {
+        $("#loading").html("There is nothing more to load.");
+    }
 }
 
 function goBack(){
@@ -129,6 +137,7 @@ $(window).scroll(function() {
         if (single == false){
             if (current > 0){
                 loadMore(current);
+                $("#node" + (count - current + 1)).slideDown('slow');
                 current--;
             } else {
                 $("#loading").html("There is nothing more to load.");
