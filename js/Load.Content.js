@@ -67,7 +67,7 @@ function loadOne(num){
     $("html, body").animate({scrollTop: 0}, 'medium');
 
     //Load NEXT if not loaded
-    if (current == (count - num)){
+    if (current == (count - num) && current > 0){
         loadMore(current);
         current--;
     } else {
