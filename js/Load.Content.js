@@ -45,7 +45,9 @@ function loadOne(num){
     $(".readMoreButton").fadeOut('slow');
     $("#node" + num).slideDown('slow');
     $("#full" + num).slideDown('slow');
+    $("#download").attr("href", "https://dl.dropboxusercontent.com/u/70091792/Pages/" + (count - num + 1) + ".md");
     $("#back").fadeIn('slow');
+    $("#download").fadeIn('slow');
     $("html, body").animate({scrollTop: 0}, 'medium');
 }
 
@@ -63,6 +65,7 @@ function goBack(){
         $("#loading").html('Loading more...');
     }
     $("#back").fadeOut('slow');
+    $("#download").fadeOut('slow');
     single = false;
 }
 
