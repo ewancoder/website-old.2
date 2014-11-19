@@ -59,6 +59,7 @@ function goBack(){
     last = count - current;
     for (i = 1; i <= last; i++){
         $("#node" + i).slideDown('slow');
+        $("#full" + i).slideUp('slow');
     }
     $("#loading").slideDown('slow');
     if (current > 0){
