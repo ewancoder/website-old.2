@@ -138,6 +138,17 @@ $(window).load(function(){
 });
 
 $(window).scroll(function() {
+    if ($(".hint--top").offset().left != 0){
+        if ($(".hint--top").offset().left > $(window).width() / 2){
+            $("span").toggleClass("hint--top");
+            $("span").toggleClass("hint--topLeft");
+        }
+    } else {
+        if ($(".hint--topLeft").offset().left < $(window.width() / 2)){
+            $("span").toggleClass("hint--topLeft");
+            $("span").toggleClass("hint--top");
+        }
+    }
     if ($(window).scrollTop() >= $(document).height() - $(window).height() - 100) {
         if (single == false){
             if (current > 0){
