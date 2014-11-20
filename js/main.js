@@ -87,8 +87,8 @@ function goBack(){
     });
     $("#archive").slideDown('slow');
     $("#loading").slideDown('slow');
-    //Show only nodes BEFORE current node[backup]
-    for (i = 1; i <= lbackup; i++){
+    //Show all the nodes that were showed before
+    for (i = 1; i <= showed; i++){
         //Show only #node part
         $("#node" + i).slideDown('slow');
     }
