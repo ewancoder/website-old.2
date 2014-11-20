@@ -44,62 +44,60 @@ function loadNode(num){
 }
 
 function loadOne(num){
-    /*
-    backup = num; //backup variable to return to
-    single = true
+    backup = num; //current location (for prev/next & goBack), goBack() sets it to 0
+    //Hide header, all non-related sections, readMoreButton
     $("header").slideUp('slow');
     $("section:not(#node" + num + "):not(#full" + num + ")").slideUp('slow');
     $(".readMoreButton").fadeOut('slow');
+    //Change #download button link to current node
+    $("#download").attr("href", "https://dl.dropboxusercontent.com/u/70091792/Pages/" + (count - num + 1) + ".md");
+    //Show related #node, #full, as well as #download and #back buttons
     $("#node" + num).slideDown('slow');
     $("#full" + num).slideDown('slow');
-    $("#download").attr("href", "https://dl.dropboxusercontent.com/u/70091792/Pages/" + (count - num + 1) + ".md");
     $("#back").fadeIn('slow');
     $("#download").fadeIn('slow');
 
+    //Show/hide #next button
     if (backup > 1) {
         $("#next").fadeIn('slow');
     } else {
         $("#next").fadeOut('slow');
     }
+    //Show/hide #previous button
     if (backup < count) {
         $("#previous").fadeIn('slow');
     } else {
         $("#previous").fadeOut("slow");
     }
-    $("html, body").animate({scrollTop: 0}, 'medium');
 
-    //Load NEXT if not loaded
-    if (current == (count - num) && current > 0){
-        loadNode(current);
-        current--;
-    } else {
-        $("#loading").html("There is nothing more to load.");
-    }
-    */
+    //Scroll to the top of page (current node)
+    $("html, body").animate({scrollTop: 0}, 'medium');
 }
 
 function goBack(){
-    /*
+    //Store backup variable in local variable in case it gets emptied before use
+    lbackup = backup
+    //Show header, .readMoreButtons, #archive, #loading caption
     $(".readMoreButton").fadeIn('slow');
-    $("#archive").slideDown('slow');
     $("header").slideDown('slow', function(){
-        $("html, body").animate({scrollTop: $("#node" + backup).offset().top}, 'medium');
+        //Scroll to the top of node[backup] only after [header/.readMoreButton] were shown
+        $("html, body").animate({scrollTop: $("#node" + lbackup).offset().top}, 'medium');
+        //Zero backup variable (to allow scrolling)
+        backup = 0;
     });
-    last = count - current;
-    for (i = 1; i <= last; i++){
-        $("#node" + i).slideDown('slow');
-        $("#full" + i).slideUp('slow');
-    }
+    $("#archive").slideDown('slow');
     $("#loading").slideDown('slow');
-    if (current > 0){
-        $("#loading").html('Loading more...');
+    //Show only nodes BEFORE current node[backup]
+    for (i = 1; i <= lbackup; i++){
+        //Show only #node part
+        $("#node" + i).slideDown('slow');
     }
+    //Hide #full part, all the buttons [back,download,previous,next]
+    $("#full" + lbackup).slideUp('slow');
     $("#back").fadeOut('slow');
     $("#download").fadeOut('slow');
     $("#previous").fadeOut('slow');
     $("#next").fadeOut('slow');
-    single = false;
-    */
 }
 
 //Functions for browsing content in One-mode, without going to Home
@@ -118,7 +116,7 @@ function goPrevious(){
 }
 
 var converter = new Markdown.Converter();
-var single = false; //If true, scrolling won't trigger anything [single is loaded]
+var backup = 0; //If 0, scrolling won't trigger anything [single is loaded]
 var showed = 3; //Initial number of showed nodes
 //Load count of nodes generated outside by server-side or manually
 count = getText('https://dl.dropboxusercontent.com/u/70091792/Pages/count');
@@ -147,7 +145,7 @@ $(window).scroll(function() {
         }
     }
     //If scrolled all the way down
-    if ($(window).scrollTop() >= $(document).height() - $(window).height() && single == false) {
+    if ($(window).scrollTop() >= $(document).height() - $(window).height() && backup == 0) {
         if (showed < count){
             //If not all showed yet - show one more
             $("#node" + (showed + 1)).slideDown('slow');
