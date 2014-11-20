@@ -43,7 +43,7 @@ function loadMore(num){
 
     date = $("#node" + (count - num + 1) + " h1 sup").text().replace('[', '').replace(']', '');
     caption = $("#node" + (count - num + 1) + " h1").text().split(" [")[0];
-    $("#archive").append("<a class='hint' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>" + date + "</a>");
+    $("#archive").append("<a class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>" + date + "</a>");
 }
 
 function loadOne(num){
