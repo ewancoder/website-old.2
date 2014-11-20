@@ -1,11 +1,11 @@
 @font-face {
     font-family: "Neucha";
-    src: url(/fonts/Neucha.ttf) format("truetype");
+    src: url(../fonts/Neucha.ttf) format("truetype");
 }
 
 body {
     font-family: 'Times New Roman', serif;
-    background: url("/images/bg.png") repeat;
+    background: url("../images/bg.png") repeat;
 }
 
 section a:link {
