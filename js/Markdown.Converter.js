@@ -1,6 +1,5 @@
 var Markdown;
 
-var pre_url = 'https://dl.dropboxusercontent.com/u/70091792/Pages/'; //Prefix for url images
 
 if (typeof exports === "object" && typeof require === "function") // we're in a CommonJS (e.g. Node.js) module
     Markdown = exports;
@@ -103,7 +102,11 @@ else
         }
     };
 
-    Markdown.Converter = function () {
+    Markdown.Converter = function (num) {
+
+        //Set prefix with Node Folder
+        var pre_url = 'https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '/'; //Prefix for url images
+
         var pluginHooks = this.hooks = new HookCollection();
         pluginHooks.addNoop("plainLinkText");  // given a URL that was encountered by itself (without markup), should return the link text that's to be given to this link
         pluginHooks.addNoop("preConversion");  // called with the orignal text as given to makeHtml. The result of this plugin hook is the actual markdown source that will be cooked

@@ -8,7 +8,7 @@ function loadNode(num){
         async: true
     }).done(function(data){
         //Convert markdown to HTML
-        str = converter.makeHtml(data);
+        str = new Markdown.Converter(num).makeHtml(data);
         //Get part after "Read more"
         full = str.split("<h4>#</h4>")[1];
         if (full == undefined){
@@ -179,7 +179,6 @@ function goPrevious(){
     }
 }
 
-var converter = new Markdown.Converter();
 var backup = -1; //If 0, scrolling won't trigger anything [single is loaded]
 //Set to "-1" to prevent scrolling while page not loaded
 var loaded = 0; //All items that has been downloaded from Dropbox [counter for async]
