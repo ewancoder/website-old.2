@@ -73,7 +73,11 @@ function loadOne(num){
     backup = num; //current location (for prev/next & goBack), goBack() sets it to 0
     //Hide header, all non-related sections, readMoreButton
     $("header").slideUp('slow');
-    $("section:not(#node" + num + "):not(#node" + num + " .full)").slideUp('slow');
+    //Momentarily hide all sections except current and +-1
+    $("section:not(#node" + num + "):not(#node" + num + " .full):not(#node" + (num-1) + "):not(#node" + (num+1) + ")").hide();
+    //Smoothly hide +-1 sections
+    $("#node" + (num-1)).slideUp('slow');
+    $("#node" + (num+1)).slideUp('slow');
     $(".readMoreButton").fadeOut('slow');
     //Change #download button link to current node
     $("#download").attr("href", "https://dl.dropboxusercontent.com/u/70091792/Pages/" + (count - num + 1) + ".md");
