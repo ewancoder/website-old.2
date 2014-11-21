@@ -167,16 +167,6 @@ $(window).load(function(){
 });
 
 $(window).scroll(function() {
-    //Place hint accordingly to its position [need better place to do it, than scroll]
-    if ($(".hint--top").offset().left != 0){
-        if ($(".hint--top").offset().left > $(window).width() / 2){
-            $("span").toggleClass("hint--top");
-            $("span").toggleClass("hint--topLeft");
-        } else {
-            $("span").toggleClass("hint--topLeft");
-            $("span").toggleClass("hint--top");
-        }
-    }
     //If scrolled all the way down
     if ($(window).scrollTop() >= $(document).height() - $(window).height() && backup == 0) {
         if (showed < count){

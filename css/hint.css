@@ -74,19 +74,16 @@
 .hint--right:before {
   border-right-color: #383838; }
 
-.hint--topLeft:before {
-  border-top-color: #383838; }
-
 /**
  * top tooltip
  */
 .hint--top:before {
   margin-bottom: -12px; }
 .hint--top:after {
-  margin-left: -5px; }
+  margin-right: -5px; }
 .hint--top:before, .hint--top:after {
   bottom: 100%;
-  left: 10%; }
+  right: 10%; }
 .hint--top:hover:after, .hint--top:hover:before, .hint--top:focus:after, .hint--top:focus:before {
   -webkit-transform: translateY(-8px);
   -moz-transform: translateY(-8px);
@@ -99,10 +96,10 @@
   margin-top: -12px; }
 .hint--bottom:after {
   background: #a83838;
-  margin-left: -18px; }
+  margin-right: -5px; }
 .hint--bottom:before, .hint--bottom:after {
   top: 100%;
-  left: 50%; }
+  right: 10%; }
 .hint--bottom:hover:after, .hint--bottom:hover:before, .hint--bottom:focus:after, .hint--bottom:focus:before {
   -webkit-transform: translateY(8px);
   -moz-transform: translateY(8px);
@@ -141,21 +138,6 @@
   transform: translateX(-8px); }
 
 /**
- * topLeft tooltip
- */
-.hint--topLeft:before {
-  margin-bottom: -12px; }
-.hint--topLeft:after {
-  margin-right: -5px; }
-.hint--topLeft:before, .hint--topLeft:after {
-  bottom: 100%;
-  right: 10%; }
-.hint--topLeft:hover:after, .hint--topLeft:hover:before, .hint--topLeft:focus:after, .hint--topLeft:focus:before {
-  -webkit-transform: translateY(-8px);
-  -moz-transform: translateY(-8px);
-  transform: translateY(-8px); }
-
-/**
  * source: hint-always.scss
  *
  * Defines a persisted tooltip which shows always.
@@ -183,8 +165,3 @@
   -webkit-transform: translateX(8px);
   -moz-transform: translateX(8px);
   transform: translateX(8px); }
-
-.hint--always.hint--topLeft:after, .hint--always.hint--topLeft:before {
-  -webkit-transform: translateY(-8px);
-  -moz-transform: translateY(-8px);
-  transform: translateY(-8px); }
