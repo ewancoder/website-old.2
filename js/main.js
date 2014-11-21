@@ -169,13 +169,15 @@ function goNext(){
     //backup variable stores current One-mode index and changed upon loadOne() execution
     if (backup > 1){
         //node[1] is the lastest (newest) node
-        loadOne(backup - 1, true);
+        backup--;
+        loadOne(backup, true);
     }
 }
 function goPrevious(){
     if (backup < count){
         //node[count] is the oldest node (e.g. node15)
-        loadOne(backup + 1, true);
+        backup++;
+        loadOne(backup, true);
     }
 }
 
