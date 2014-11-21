@@ -119,9 +119,10 @@ function loadOne(num){
 
     //Show #node and #full, as well as scroll at the top
     $("#node" + num).slideDown('slow', function(){
-        $("#node" + num + " #full").slideDown('slow');
+        $("#node" + num + " #full").slideDown('slow', function(){
+            $("html, body").animate({scrollTop: $("#node" + (num) + " #full").offset().top}, 'medium');
+        });
     });
-    $("html, body").animate({scrollTop: 0}, 'medium');
 }
 
 function goBack(){
