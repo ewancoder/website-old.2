@@ -1,12 +1,22 @@
 function loadNode(num){
-    //num - name of a file (e.g. 15 for 15.md)
+    //num - name of a file (e.g. 1 for 1.md) [downloaded from 1 to 15, should be backwards]
     //Get page from Dropbox
-    $.ajax({
+    query = $.ajax({
         url: 'https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md',
         type: 'get',
         dataType: 'html',
         async: true
-    }).done(function(data){
+    });
+    query.fail(function(){
+        if (count == 0){
+            count = num - 1;
+        } else {
+            if (num - 1 < count){
+                count = num - 1;
+            }
+        }
+    });
+    query.done(function(data){
         //Convert markdown to HTML
         str = converter.makeHtml(data);
         //Get part after "Read more"
@@ -20,7 +30,7 @@ function loadNode(num){
 
         //Asynchronous: find out which ID already exists above current
         nodeExist = 0;
-        for (i = 1; i <= (count - num); i++){
+        for (i = 1; i < num; i++){
             if ($("#node" + i).length != 0){
                 nodeExist = i;
             }
@@ -28,34 +38,35 @@ function loadNode(num){
 
         //Add node
         if (nodeExist != 0){
-            $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#node" + nodeExist);
+            $("<section id='node" + num + "' hidden><hr/>" + preface + "</section>").insertBefore("#node" + nodeExist);
         } else {
-            $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#archive");
+            $("main").append("<section id='node" + num + "' hidden><hr/>" + preface + "</section>");
         }
 
         //Wrap title in fancy link
-        $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>");
+        $("#node" + num + " h1").wrap("<a onclick='loadOne(" + num + ")' href='javascript:void(0);'>");
         if (full != undefined){
             //If there IS "Read more" button, make button + add #full content
-            $("#node" + (count - num + 1)).append("<a class='readMoreButton' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>Read more</a>");
-            $("#node" + (count - num + 1)).append("<section class='full' hidden>" + full + "</section>");
+            $("#node" + num).append("<a class='readMoreButton' onclick='loadOne(" + num + ")' href='javascript:void(0);'>Read more</a>");
+            $("#node" + num).append("<section class='full' hidden>" + full + "</section>");
         }
 
         //Get date and caption for archive construction
-        date = $("#node" + (count - num + 1) + " h1 sup").text().replace('[', '').replace(']', '');
-        caption = $("#node" + (count - num + 1) + " h1").text().split(" [")[0];
+        date = $("#node" + num + " h1 sup").text().replace('[', '').replace(']', '');
+        caption = $("#node" + num + " h1").text().split(" [")[0];
         //Construct #archive above all the nodes
         if (nodeExist != 0){
-            $("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch" + nodeExist);
+            $("<a id='arch" + num + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + num + ")' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch" + nodeExist);
         } else {
-            $("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch0");
+            $("#archive").append("<a id='arch" + num + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + num + ")' href='javascript:void(0);'>" + date + "</a>");
         }
 
         //Increment total counter which informs when all data is loaded
-        if (loaded < count){
+        //When loaded == count -> last part executed (with slideDown)
+        if ((count > 0 && loaded < count) || (count == 0)) {
             loaded += 1;
         }
-        if (loaded == count){
+        if (count > 0 && loaded >= count){
             //Hide .loader (status)
             $(".loader").fadeOut('slow');
 
@@ -67,7 +78,7 @@ function loadNode(num){
                 if (path != '') {
                     showed = path.split('p')[1];
                 }
-                for (i = 1; i <= showed; i++){
+                for (i = count; i >= count - showed + 1; i--){
                     $("#node" + i).slideDown('slow');
                 }
                 $("#archive").slideDown('slow', function(){
@@ -135,7 +146,7 @@ function goBack(){
     });
     $("#archive").slideDown('slow');
     //Show all the nodes that were showed before
-    for (i = 1; i <= showed; i++){
+    for (i = count; i <= count - showed + 1; i--){
         //Show only #node part
         $("#node" + i).slideDown('slow');
     }
@@ -167,6 +178,7 @@ var backup = -1; //If 0, scrolling won't trigger anything [single is loaded]
 //Set to "-1" to prevent scrolling while page not loaded
 var loaded = 0; //All items that has been downloaded from Dropbox [counter for async]
 var showed = 3; //Initial number of showed nodes
+var count = 0; //while it's 0, nodes keep downloading
 
 path = location.search;
 
@@ -178,10 +190,16 @@ $(window).load(function(){
         dataType: 'html',
         async: true
     }).done(function(data){
-        count = data;
+        //count = data;
         //Load ALL nodes at once
-        for (i = count; i > 0; i--){
-            loadNode(i); //i - name of file (15.md)
+        //for (i = count; i > 0; i--){
+        for (i = 1; i < 20; i++){
+            if (count > 0) {
+                break
+            } else {
+                //Load only while count > 0 (which sets by .fail() method)
+                loadNode(i); //i - name of node (1.md), should be placed backwards downloading order
+            }
         }
     });
 });
@@ -191,7 +209,7 @@ $(window).scroll(function() {
     if ($(window).scrollTop() >= $(document).height() - $(window).height() && backup == 0) {
         //If not all showed yet - show one more
         //Condition [if not all] was removed due to strange issue and grateful to no errors with such sentence
-        $("#node" + (showed + 1)).slideDown('slow');
+        $("#node" + (count - showed)).slideDown('slow');
         showed++;
     }
 });
