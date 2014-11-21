@@ -38,7 +38,7 @@ function loadNode(num){
         if (full != undefined){
             //If there IS "Read more" button, make button + add #full content
             $("#node" + (count - num + 1)).append("<a class='readMoreButton' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>Read more</a>");
-            $("#node" + (count - num + 1)).append("<section class='full' hidden>" + full + "</section>");
+            $("#node" + (count - num + 1)).append("<section id='full' hidden>" + full + "</section>");
         }
 
         //Get date and caption for archive construction
@@ -93,19 +93,17 @@ function loadOne(num){
     //Hide header, all non-related sections, readMoreButton
     $("header").slideUp('slow');
     //Momentarily hide all sections except current and +-1
-    $("section:not(#node" + num + "):not(#node" + num + " .full):not(#node" + (num-1) + "):not(#node" + (num+1) + ")").hide();
+    $("section:not(#node" + num + "):not(#node" + num + " #full):not(#node" + (num-1) + "):not(#node" + (num+1) + ")").hide();
     //Smoothly hide +-1 sections
     $("#node" + (num-1)).slideUp('slow');
     $("#node" + (num+1)).slideUp('slow');
     $(".readMoreButton").fadeOut('slow');
     //Change #download button link to current node
     $("#download").attr("href", "https://dl.dropboxusercontent.com/u/70091792/Pages/" + (count - num + 1) + ".md");
-    //Show related #node, #full, as well as #download and #back buttons
-    $("#node" + num).slideDown('slow');
-    $("#node" + num + " .full" + num).slideDown('slow');
+    //Show #download and #back buttons
     $("#back").fadeIn('slow');
     $("#download").fadeIn('slow');
-
+    
     //Show/hide #next button
     if (backup > 1) {
         $("#next").fadeIn('slow');
@@ -119,7 +117,10 @@ function loadOne(num){
         $("#previous").fadeOut("slow");
     }
 
-    //Scroll to the top of page (current node)
+    //Show #node and #full, as well as scroll at the top
+    $("#node" + num).slideDown('slow', function(){
+        $("#node" + num + " #full").slideDown('slow');
+    });
     $("html, body").animate({scrollTop: 0}, 'medium');
 }
 
@@ -143,7 +144,7 @@ function goBack(){
         $("#node" + i).slideDown('slow');
     }
     //Hide #full part, all the buttons [back,download,previous,next]
-    $("#node" + lbackup + " .full").slideUp('slow');
+    $("#node" + lbackup + " #full").slideUp('slow');
     $("#back").fadeOut('slow');
     $("#download").fadeOut('slow');
     $("#previous").fadeOut('slow');
