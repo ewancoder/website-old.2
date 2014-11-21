@@ -1,6 +1,6 @@
 var Markdown;
 
-var pre_url = 'https://dl.dropboxusercontent.com/u/70091792/Pages/Figures/'; //Prefix for url images
+var pre_url = 'https://dl.dropboxusercontent.com/u/70091792/Pages/'; //Prefix for url images
 
 if (typeof exports === "object" && typeof require === "function") // we're in a CommonJS (e.g. Node.js) module
     Markdown = exports;
