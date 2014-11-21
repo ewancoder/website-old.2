@@ -14,11 +14,6 @@ function loadNode(num){
     //num - name of a file (e.g. 15 for 15.md)
     //Get page from Dropbox and convert it to HTML
     //str = converter.makeHtml(getText('https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md'));
-
-
-
-
-
     var result = null;
     $.ajax({
         url: 'https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md',
@@ -26,13 +21,8 @@ function loadNode(num){
         dataType: 'html',
         async: true
     }).done(function(data){
-
-
+        //Convert markdown to HTML
         str = converter.makeHtml(data);
-
-
-
-
         //Get part after "Read more"
         full = str.split("<h4>#</h4>")[1];
         if (full == undefined){
@@ -69,8 +59,27 @@ function loadNode(num){
         date = $("#node" + (count - num + 1) + " h1 sup").text().replace('[', '').replace(']', '');
         caption = $("#node" + (count - num + 1) + " h1").text().split(" [")[0];
         //Construct #archive above all the nodes
-        //Need to go asynchronously here
-        $("#archive").append("<a class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>" + date + "</a>");
+        if (nodeExist != 0){
+            $("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch" + nodeExist);
+        } else {
+            $("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch0");
+        }
+
+        //Increment total counter which informs when all data is loaded
+        if (loaded < count){
+            loaded += 1;
+        }
+        if (loaded == count){
+            //Show nodes and archive
+            for (i = 1; i <= showed; i++){
+                $("#node" + i).slideDown('slow');
+            }
+            $("#archive").slideDown('slow');
+            //Allow scrolling
+            backup = 0;
+            //Hide .loader (status)
+            $(".loader").fadeOut('slow');
+        }
     });
 }
 
@@ -108,7 +117,7 @@ function loadOne(num){
 function goBack(){
     //Store backup variable in local variable in case it gets emptied before use
     lbackup = backup
-    //Show header, .readMoreButtons, #archive, #loading caption
+    //Show header, .readMoreButtons, #archive
     $(".readMoreButton").fadeIn('slow');
     $("header").slideDown('slow', function(){
         //Scroll to the top of node[backup] only after [header/.readMoreButton] were shown
@@ -117,7 +126,6 @@ function goBack(){
         backup = 0;
     });
     $("#archive").slideDown('slow');
-    $("#loading").slideDown('slow');
     //Show all the nodes that were showed before
     for (i = 1; i <= showed; i++){
         //Show only #node part
@@ -149,22 +157,24 @@ function goPrevious(){
 var converter = new Markdown.Converter();
 var backup = -1; //If 0, scrolling won't trigger anything [single is loaded]
 //Set to "-1" to prevent scrolling while page not loaded
+var loaded = 0; //All items that has been downloaded from Dropbox [counter for async]
 var showed = 3; //Initial number of showed nodes
-//Load count of nodes generated outside by server-side or manually
-count = getText('https://dl.dropboxusercontent.com/u/70091792/Pages/count');
 
 $(window).load(function(){
-    //Load ALL nodes at once
-    for (i = count; i > 0; i--){
-        loadNode(i); //i - name of file (15.md)
-    }
-    //Show nodes and archive
-    for (i = 1; i <= showed; i++){
-        $("#node" + i).slideDown('slow');
-    }
-    $("#archive").slideDown('slow');
-    //Allow scrolling
-    backup = 0;
+    //Load count of nodes generated outside by server-side or manually
+    var result = null;
+    $.ajax({
+        url: 'https://dl.dropboxusercontent.com/u/70091792/Pages/count',
+        type: 'get',
+        dataType: 'html',
+        async: true
+    }).done(function(data){
+        count = data;
+        //Load ALL nodes at once
+        for (i = count; i > 0; i--){
+            loadNode(i); //i - name of file (15.md)
+        }
+    });
 });
 
 $(window).scroll(function() {
@@ -184,9 +194,6 @@ $(window).scroll(function() {
             //If not all showed yet - show one more
             $("#node" + (showed + 1)).slideDown('slow');
             showed++;
-        } else {
-            //Change loading caption
-            $("#loading").html("There is nothing more to load.");
         }
     }
 });
