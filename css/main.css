@@ -13,7 +13,7 @@ section a:link {
     text-decoration: none;
 }
 section#archive {
-    margin-top: 1em;
+    margin: 1em auto;
     text-align: center;
     font-weight: bold;
 }
@@ -86,7 +86,8 @@ a#back:active, a#previous:active, a#next:active, a#download:active {
 }
 
 #slide {
-    height: 200px;
+    max-height: 10em;
+    max-width: calc(100%/3.5);
 }
 
 p {
