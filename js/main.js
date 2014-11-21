@@ -67,6 +67,9 @@ function loadNode(num){
                 if (path != '') {
                     showed = path.split('p')[1];
                 }
+                if (showed < 3){
+                    showed = 3;
+                }
                 for (i = 1; i <= showed; i++){
                     $("#node" + i).slideDown('slow');
                 }
