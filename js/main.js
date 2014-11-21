@@ -56,20 +56,36 @@ function loadNode(num){
             loaded += 1;
         }
         if (loaded == count){
-            //Show nodes and archive
-            for (i = 1; i <= showed; i++){
-                $("#node" + i).slideDown('slow');
-            }
-            $("#archive").slideDown('slow');
-            //Allow scrolling
-            backup = 0;
             //Hide .loader (status)
             $(".loader").fadeOut('slow');
+
+            if (path != '' && path.charAt(1) != 'p'){
+                //LoadOne from (url/1)
+                loadOne(path.split('?')[1]);
+            } else {
+                //Show nodes and archive
+                if (path != '') {
+                    showed = path.split('p')[1];
+                }
+                for (i = 1; i <= showed; i++){
+                    $("#node" + i).slideDown('slow');
+                }
+                $("#archive").slideDown('slow', function(){
+                    if (path != ''){
+                        //Scroll to selected (url/p1) anchor
+                        $("html, body").animate({scrollTop: $("#node" + path.split('p')[1]).offset().top}, 'medium');
+                    }
+                });
+                //Allow scrolling
+                backup = 0;
+            }
         }
     });
 }
 
 function loadOne(num){
+    //Change URL so user can copy it
+    window.history.replaceState("Node" + num, "Node " + num, "/?" + num);
     backup = num; //current location (for prev/next & goBack), goBack() sets it to 0
     //Hide header, all non-related sections, readMoreButton
     $("header").slideUp('slow');
@@ -107,6 +123,8 @@ function loadOne(num){
 function goBack(){
     //Store backup variable in local variable in case it gets emptied before use
     lbackup = backup
+    //Change URL back to item place
+    window.history.replaceState("Place" + lbackup, "Place " + lbackup, "/?p" + lbackup);
     //Show header, .readMoreButtons, #archive
     $(".readMoreButton").fadeIn('slow');
     $("header").slideDown('slow', function(){
@@ -150,6 +168,8 @@ var backup = -1; //If 0, scrolling won't trigger anything [single is loaded]
 var loaded = 0; //All items that has been downloaded from Dropbox [counter for async]
 var showed = 3; //Initial number of showed nodes
 
+path = location.search;
+
 $(window).load(function(){
     //Load count of nodes generated outside by server-side or manually
     $.ajax({
@@ -169,11 +189,10 @@ $(window).load(function(){
 $(window).scroll(function() {
     //If scrolled all the way down
     if ($(window).scrollTop() >= $(document).height() - $(window).height() && backup == 0) {
-        if (showed < count){
-            //If not all showed yet - show one more
-            $("#node" + (showed + 1)).slideDown('slow');
-            showed++;
-        }
+        //If not all showed yet - show one more
+        //Condition [if not all] was removed due to strange issue and grateful to no errors with such sentence
+        $("#node" + (showed + 1)).slideDown('slow');
+        showed++;
     }
 });
 
