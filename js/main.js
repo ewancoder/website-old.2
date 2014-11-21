@@ -11,49 +11,80 @@ function getText(myUrl){
 }
 
 function loadNode(num){
+    //num - name of a file (e.g. 15 for 15.md)
     //Get page from Dropbox and convert it to HTML
-    str = converter.makeHtml(getText('https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md'));
-    //Get part after "Read more"
-    full = str.split("<h4>#</h4>")[1];
-    if (full == undefined){
-        //If there's NO "Read more" button, load ALL, else - load only before <h4>
-        preface = str;
-    } else {
-        preface = str.split("<h4>")[0];
-    }
-    if (count - num == 0){
-        //If this is the first #node1, we need to place it after #archive
-        //So the archive MUST be enclosed in <main> tag
-        $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#archive");
-    } else {
-        $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#node" + (count - num));
-    }
-    //Wrap title in fancy link
-    $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>");
-    if (full != undefined){
-        //If there IS "Read more" button, make button + add #full content
-        $("#node" + (count - num + 1)).append("<a class='readMoreButton' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>Read more</a>");
-        $("<section id='full" + (count - num + 1) + "' hidden>" + full + "</section>").insertAfter("#node" + (count - num + 1));
-    }
+    //str = converter.makeHtml(getText('https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md'));
 
-    //Get date and caption for archive construction
-    date = $("#node" + (count - num + 1) + " h1 sup").text().replace('[', '').replace(']', '');
-    caption = $("#node" + (count - num + 1) + " h1").text().split(" [")[0];
-    //Construct #archive above all the nodes
-    $("#archive").append("<a class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>" + date + "</a>");
+
+
+
+
+    var result = null;
+    $.ajax({
+        url: 'https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md',
+        type: 'get',
+        dataType: 'html',
+        async: true
+    }).done(function(data){
+
+
+        str = converter.makeHtml(data);
+
+
+
+
+        //Get part after "Read more"
+        full = str.split("<h4>#</h4>")[1];
+        if (full == undefined){
+            //If there's NO "Read more" button, load ALL, else - load only before <h4>
+            preface = str;
+        } else {
+            preface = str.split("<h4>")[0];
+        }
+
+        //Asynchronous: find out which ID already exists above current
+        nodeExist = 0;
+        for (i = 1; i <= (count - num); i++){
+            if ($("#node" + i).length != 0){
+                nodeExist = i;
+            }
+        }
+
+        //Add node
+        if (nodeExist != 0){
+            $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#node" + nodeExist);
+        } else {
+            $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#archive");
+        }
+
+        //Wrap title in fancy link
+        $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>");
+        if (full != undefined){
+            //If there IS "Read more" button, make button + add #full content
+            $("#node" + (count - num + 1)).append("<a class='readMoreButton' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>Read more</a>");
+            $("#node" + (count - num + 1)).append("<section class='full' hidden>" + full + "</section>");
+        }
+
+        //Get date and caption for archive construction
+        date = $("#node" + (count - num + 1) + " h1 sup").text().replace('[', '').replace(']', '');
+        caption = $("#node" + (count - num + 1) + " h1").text().split(" [")[0];
+        //Construct #archive above all the nodes
+        //Need to go asynchronously here
+        $("#archive").append("<a class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>" + date + "</a>");
+    });
 }
 
 function loadOne(num){
     backup = num; //current location (for prev/next & goBack), goBack() sets it to 0
     //Hide header, all non-related sections, readMoreButton
     $("header").slideUp('slow');
-    $("section:not(#node" + num + "):not(#full" + num + ")").slideUp('slow');
+    $("section:not(#node" + num + "):not(#node" + num + " .full)").slideUp('slow');
     $(".readMoreButton").fadeOut('slow');
     //Change #download button link to current node
     $("#download").attr("href", "https://dl.dropboxusercontent.com/u/70091792/Pages/" + (count - num + 1) + ".md");
     //Show related #node, #full, as well as #download and #back buttons
     $("#node" + num).slideDown('slow');
-    $("#full" + num).slideDown('slow');
+    $("#node" + num + " .full" + num).slideDown('slow');
     $("#back").fadeIn('slow');
     $("#download").fadeIn('slow');
 
@@ -93,7 +124,7 @@ function goBack(){
         $("#node" + i).slideDown('slow');
     }
     //Hide #full part, all the buttons [back,download,previous,next]
-    $("#full" + lbackup).slideUp('slow');
+    $("#node" + lbackup + " .full").slideUp('slow');
     $("#back").fadeOut('slow');
     $("#download").fadeOut('slow');
     $("#previous").fadeOut('slow');
@@ -116,7 +147,8 @@ function goPrevious(){
 }
 
 var converter = new Markdown.Converter();
-var backup = 0; //If 0, scrolling won't trigger anything [single is loaded]
+var backup = -1; //If 0, scrolling won't trigger anything [single is loaded]
+//Set to "-1" to prevent scrolling while page not loaded
 var showed = 3; //Initial number of showed nodes
 //Load count of nodes generated outside by server-side or manually
 count = getText('https://dl.dropboxusercontent.com/u/70091792/Pages/count');
@@ -131,6 +163,8 @@ $(window).load(function(){
         $("#node" + i).slideDown('slow');
     }
     $("#archive").slideDown('slow');
+    //Allow scrolling
+    backup = 0;
 });
 
 $(window).scroll(function() {
