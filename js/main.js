@@ -34,10 +34,10 @@ function loadNode(num){
         }
 
         //Wrap title in fancy link
-        $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>");
+        $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>");
         if (full != undefined){
             //If there IS "Read more" button, make button + add #full content
-            $("#node" + (count - num + 1)).append("<a class='readMoreButton' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>Read more</a>");
+            $("#node" + (count - num + 1)).append("<a class='readMoreButton' onclick='loadOne(" + (count - num + 1) + ", false)' href='javascript:void(0);'>Read more</a>");
             $("#node" + (count - num + 1)).append("<section id='full' hidden>" + full + "</section>");
         }
 
@@ -46,9 +46,9 @@ function loadNode(num){
         caption = $("#node" + (count - num + 1) + " h1").text().split(" [")[0];
         //Construct #archive above all the nodes
         if (nodeExist != 0){
-            $("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch" + nodeExist);
+            $("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch" + nodeExist);
         } else {
-            $("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ")' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch0");
+            $("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch0");
         }
 
         //Increment total counter which informs when all data is loaded
@@ -63,7 +63,7 @@ function loadNode(num){
 
             if (path != '' && path.charAt(1) != 'p'){
                 //LoadOne from (url/1)
-                loadOne(path.split('?')[1]);
+                loadOne(path.split('?')[1], true);
             } else {
                 //Show nodes and archive
                 if (path != '') {
@@ -88,7 +88,9 @@ function loadNode(num){
     });
 }
 
-function loadOne(num){
+function loadOne(num, goTop){
+    //If goTop == true -> go at the very top
+    //goTop only [false] when loading page with a variable AND when pressing button
     //Change URL so user can copy it
     window.history.replaceState("Node" + num, "Node " + num, "/?" + num);
     backup = num; //current location (for prev/next & goBack), goBack() sets it to 0
@@ -119,12 +121,19 @@ function loadOne(num){
         $("#previous").fadeOut("slow");
     }
 
-    //Show #node and #full, as well as scroll at the top
-    $("#node" + num).slideDown('slow', function(){
-        $("#node" + num + " #full").slideDown('slow', function(){
-            $("html, body").animate({scrollTop: $("#node" + (num) + " #full").offset().top}, 'medium');
+    //If gone from path - scroll to the very UP
+    if (goTop == false){
+        //Show #node and #full, as well as scroll at the top
+        $("#node" + num).slideDown('slow', function(){
+            $("#node" + num + " #full").slideDown('slow', function(){
+                $("html, body").animate({scrollTop: $("#node" + (num) + " #full").offset().top}, 'medium');
+            });
         });
-    });
+    } else {
+        $("#node" + num).slideDown('slow');
+        $("#node" + num + " #full").slideDown('slow');
+        $("html,body").animate({scrollTop: 0}, 'medium');
+    }
 }
 
 function goBack(){
@@ -159,13 +168,13 @@ function goNext(){
     //backup variable stores current One-mode index and changed upon loadOne() execution
     if (backup > 1){
         //node[1] is the lastest (newest) node
-        loadOne(backup - 1);
+        loadOne(backup - 1, true);
     }
 }
 function goPrevious(){
     if (backup < count){
         //node[count] is the oldest node (e.g. node15)
-        loadOne(backup + 1);
+        loadOne(backup + 1, true);
     }
 }
 
