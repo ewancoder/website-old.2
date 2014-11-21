@@ -1,5 +1,7 @@
 var Markdown;
 
+var pre_url = 'https://dl.dropboxusercontent.com/u/70091792/Pages/Figures/'; //Prefix for url images
+
 if (typeof exports === "object" && typeof require === "function") // we're in a CommonJS (e.g. Node.js) module
     Markdown = exports;
 else
@@ -683,7 +685,7 @@ else
 
             alt_text = alt_text.replace(/"/g, "&quot;");
             url = escapeCharacters(url, "*_");
-            var result = "<img src=\"" + url + "\" alt=\"" + alt_text + "\"";
+            var result = "<img src=\"" + pre_url + url + "\" alt=\"" + alt_text + "\"";
 
             // attacklab: Markdown.pl adds empty title attributes to images.
             // Replicate this bug.
