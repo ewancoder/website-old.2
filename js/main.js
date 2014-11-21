@@ -1,20 +1,6 @@
-function getText(myUrl){
-    var result = null;
-    $.ajax( { url: myUrl,
-              type: 'get',
-              dataType: 'html',
-              async: false,
-              success: function(data) { result = data; }
-            }
-    );
-    return result;
-}
-
 function loadNode(num){
     //num - name of a file (e.g. 15 for 15.md)
-    //Get page from Dropbox and convert it to HTML
-    //str = converter.makeHtml(getText('https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md'));
-    var result = null;
+    //Get page from Dropbox
     $.ajax({
         url: 'https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md',
         type: 'get',
@@ -162,7 +148,6 @@ var showed = 3; //Initial number of showed nodes
 
 $(window).load(function(){
     //Load count of nodes generated outside by server-side or manually
-    var result = null;
     $.ajax({
         url: 'https://dl.dropboxusercontent.com/u/70091792/Pages/count',
         type: 'get',
