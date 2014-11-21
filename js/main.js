@@ -121,6 +121,8 @@ function loadOne(num, goTop){
         $("#previous").fadeOut("slow");
     }
 
+    //Scroll to top BECAUSE I need it before scrolling down
+    $("html,body").animate({scrollTop: 0}, 'medium');
     //If gone from path - scroll to the very UP
     if (goTop == false){
         //Show #node and #full, as well as scroll at the top
@@ -132,7 +134,6 @@ function loadOne(num, goTop){
     } else {
         $("#node" + num).slideDown('slow');
         $("#node" + num + " #full").slideDown('slow');
-        $("html,body").animate({scrollTop: 0}, 'medium');
     }
 }
 
