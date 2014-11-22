@@ -119,6 +119,10 @@ footer p {
     text-align: center;
 }
 
+figure {
+    text-align: center;
+}
+
 li {
     font-size: 1.5em;
 }

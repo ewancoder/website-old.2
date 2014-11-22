@@ -56,8 +56,6 @@ function loadNode(num){
             loaded += 1;
         }
         if (loaded == count){
-            //Center all images
-            $('img').parents('p').css('text-align', 'center');
             //Hide .loader (status)
             $(".loader").fadeOut('slow');
 

@@ -1,6 +1,5 @@
 var Markdown;
 
-
 if (typeof exports === "object" && typeof require === "function") // we're in a CommonJS (e.g. Node.js) module
     Markdown = exports;
 else
@@ -1129,8 +1128,13 @@ else
                 }
                 else if (str.search(/\S/) >= 0) {
                     str = _RunSpanGamut(str);
-                    str = str.replace(/^([ \t]*)/g, "<p>");
-                    str += "</p>"
+                    if (str.split('<img')[1] == undefined){
+                        str = str.replace(/^([ \t]*)/g, "<p>");
+                        str += "</p>"
+                    } else {
+                        str = str.replace(/^([ \t]*)/g, "<figure>");
+                        str += "</figure>"
+                    }
                     grafsOut.push(str);
                 }
 
