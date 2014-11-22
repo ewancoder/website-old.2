@@ -59,29 +59,29 @@ a#back:active, a#previous:active, a#next:active, a#download:active {
 
 #back {
     position: fixed;
-    top: 20px;
-    left: 20px;
+    top: 1em;
+    left: 1em;
     opacity: 0.6;
 }
 
 #previous {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
+    bottom: .1em;
+    left: 1em;
     opacity: 0.6;
 }
 
 #next {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 1em;
+    right: 1em;
     opacity: 0.6;
 }
 
 #download {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 1em;
+    right: 1em;
     opacity: 0.6;
 }
 
@@ -137,10 +137,10 @@ sup {
 }
 
 section img {
-    min-width: 8em;
-    max-width: 15em;
-    min-height: 4em;
-    max-height: 8em;
+    min-height: 6em;
+    max-height: 20em;
+    min-width: 15%;
+    max-width: 45%;
     margin: 0 auto;
     display: inline-block;
 }
@@ -156,16 +156,16 @@ blockquote {
 #description {
     font-family: "Neucha";
     font-size: 1.4em;
-    color: #f00;
+    color: #b00;
+    background-color: #fff;
     border: 2px solid;
     border-radius: 10px;
-    background-color: #fff;
     text-align: center;
     position: fixed;
-    margin-left: -7em;
-    width: 14em;
     left: 50%;
-    bottom: 20px;
+    transform: translate(-50%,0);
+    width: 70%;
+    bottom: 1em;
 }
 
 /* Loader from CSS website with loaders*/
