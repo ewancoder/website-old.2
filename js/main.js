@@ -32,7 +32,7 @@ function loadNode(num){
         if (afterface != undefined){
             //If there IS "Read more" button, make button + add #afterface content
             $("#node" + (count - num + 1)).append("<a class='readMoreButton' onclick='loadOne(" + (count - num + 1) + ", false)' href='javascript:void(0);'>Read more</a>");
-            $("#node" + (count - num + 1)).append("<article id='afterface' hidden>" + afterface + "</article>");
+            $("#node" + (count - num + 1)).append("<section id='afterface' hidden>" + afterface + "</article>");
         }
 
         //Get date and caption for archive (navigation) construction
