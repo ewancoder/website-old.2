@@ -130,6 +130,7 @@ function loadOne(num, goTop){
         });
     } else {
         $("#node" + num).slideDown('slow');
+        $("#node" + num + " #afterface").slideDown('slow');
         $("html, body").animate({scrollTop: 0}, 'medium');
     }
 }
