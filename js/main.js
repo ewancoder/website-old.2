@@ -92,7 +92,8 @@ function loadOne(num, goTop){
     //goTop only [false] when loading page with a variable AND when pressing button
     //Change URL so user can copy it
     window.history.replaceState("Node" + num, "Node " + num, "/?" + num);
-    backup = num; //current location (for prev/next & goBack), goBack() sets it to 0
+    //Need to parseInt because right up it grabs path.split
+    backup = parseInt(num); //current location (for prev/next & goBack), goBack() sets it to 0
     //Hide header, all non-related sections, readMoreButton
     $("header").slideUp('slow');
     //Momentarily hide all sections except current and +-1
