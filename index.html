@@ -10,10 +10,10 @@
     <base target="_blank" />
   </head>
   <body>
-    <a id='previous' onclick='goPrevious()' href='javascript:void(0);' hidden><i class="fa fa-mail-reply fa-3x"></i></a>
-    <a id='next' onclick='goNext()' href='javascript:void(0);' hidden><i class="fa fa-mail-forward fa-3x"></i></a>
-    <a id='back' onclick='goBack()' href='javascript:void(0);' hidden><i class="fa fa-home fa-3x"></i></a>
-    <a id='download' hidden><i class="fa fa-download fa-3x"></i></a>
+    <a class='button' id='previous' onclick='goPrevious()' href='javascript:void(0);' hidden><i class="fa fa-mail-reply fa-3x"></i></a>
+    <a class='button' id='next' onclick='goNext()' href='javascript:void(0);' hidden><i class="fa fa-mail-forward fa-3x"></i></a>
+    <a class='button' id='back' onclick='goBack()' href='javascript:void(0);' hidden><i class="fa fa-home fa-3x"></i></a>
+    <a class='button' id='download' hidden><i class="fa fa-download fa-3x"></i></a>
     <p id='description' hidden></p>
     <header>
       <h1>Hello there!</h1>
@@ -29,8 +29,8 @@
         <a class="hint--top" data-hint="Skype chat-link" href="skype:ewancoder?chat"><i class="fa fa-skype fa-3x"></i></a>
         <a class="hint--top" data-hint="Nothing interesting..." href="https://www.youtube.com/channel/UCQzd85vUhiVJ_5TJ0JcvCLw"><i class="fa fa-youtube fa-3x"></i></a>
       </section>
-      <nav hidden></nav>
     </header>
+    <nav hidden></nav>
     <main></main>
     <footer>
       <hr/>
@@ -38,7 +38,7 @@
       <p>Copyright <i class="fa fa-copyright"></i> EwanCoder, 2014</p>
     </footer>
     <script src="js/jquery.min.js"></script>
-    <script src="js/Markdown.Converter.js"></script>
+    <script src="js/md.converter.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>

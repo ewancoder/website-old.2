@@ -101,6 +101,9 @@ function loadOne(num, goTop){
     //Show #download and #back buttons
     $("#back").fadeIn('slow');
     $("#download").fadeIn('slow');
+
+    //Show <nav>
+    $("nav").slideDown('slow');
     
     //Show/hide #next button
     if (backup > 1) {
@@ -127,7 +130,7 @@ function loadOne(num, goTop){
         });
     } else {
         $("#node" + num).slideDown('slow');
-        $("#node" + num + " #afterface").slideDown('slow');
+        $("html, body").animate({scrollTop: 0}, 'medium');
     }
 }
 
@@ -136,7 +139,7 @@ function goBack(){
     lbackup = backup
     //Change URL back to item place
     window.history.replaceState("Place" + lbackup, "Place " + lbackup, "/?p" + lbackup);
-    //Show header, .readMoreButtons, navigation
+    //Show header, .readMoreButtons
     $(".readMoreButton").fadeIn('slow');
     $("header").slideDown('slow', function(){
         //Scroll to the top of node[backup] only after [header/.readMoreButton] were shown
@@ -144,7 +147,6 @@ function goBack(){
         //Zero backup variable (to allow scrolling)
         backup = 0;
     });
-    $("nav").slideDown('slow');
     //Show all the nodes that were showed before
     for (i = 1; i <= showed; i++){
         //Show only #node part
