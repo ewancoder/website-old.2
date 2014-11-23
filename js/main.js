@@ -195,7 +195,7 @@ $(window).load(function(){
         dataType: 'html',
         async: true
     }).done(function(data){
-        count = data;
+        count = parseInt(data);
         //Load ALL nodes at once
         for (i = count; i > 0; i--){
             loadNode(i); //i - name of file (15.md)
