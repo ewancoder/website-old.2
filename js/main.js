@@ -8,15 +8,10 @@ function loadNode(num){
         async: true
     }).done(function(data){
         //Convert markdown to HTML
-        str = new Markdown.Converter(num).makeHtml(data);
-        //Get part after "Read more"
-        full = str.split("<h4>#</h4>")[1];
-        if (full == undefined){
-            //If there's NO "Read more" button, load ALL, else - load only before <h4>
-            preface = str;
-        } else {
-            preface = str.split("<h4>")[0];
-        }
+        full = new Markdown.Converter(num).makeHtml(data).split('<h4>#</h4>');
+        //Get parts around "Read more"
+        preface = full[0];
+        afterface = full[1];
 
         //Asynchronous: find out which ID already exists above current
         nodeExist = 0;
@@ -28,28 +23,27 @@ function loadNode(num){
 
         //Add node
         if (nodeExist != 0){
-            $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#node" + nodeExist);
+            $("<article id='node" + (count - num + 1) + "' hidden><hr/><section id='preface'>" + preface + "</section></article>").insertAfter("#node" + nodeExist);
         } else {
-            $("<section id='node" + (count - num + 1) + "' hidden><hr/>" + preface + "</section>").insertAfter("#archive");
+            $("main").prepend("<article id='node" + (count - num + 1) + "' hidden><hr/><section id='preface'>" + preface + "</section></article>");
         }
-
         //Wrap title in fancy link
         $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>");
-        if (full != undefined){
-            //If there IS "Read more" button, make button + add #full content
+        if (afterface != undefined){
+            //If there IS "Read more" button, make button + add #afterface content
             $("#node" + (count - num + 1)).append("<a class='readMoreButton' onclick='loadOne(" + (count - num + 1) + ", false)' href='javascript:void(0);'>Read more</a>");
-            $("#node" + (count - num + 1)).append("<section id='full' hidden>" + full + "</section>");
+            $("#node" + (count - num + 1)).append("<article id='afterface' hidden>" + afterface + "</article>");
         }
 
-        //Get date and caption for archive construction
+        //Get date and caption for archive (navigation) construction
         date = $("#node" + (count - num + 1) + " h1 sup").text().replace('[', '').replace(']', '');
         caption = $("#node" + (count - num + 1) + " h1").text().split(" [")[0];
-        //Construct #archive above all the nodes
+        //Construct navigation (<nav>) above all the nodes
         if (nodeExist != 0){
             $("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch" + nodeExist);
         } else {
             $("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch0");
-            $("#archive").prepend("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>" + date + "</a>");
+            $("nav").prepend("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>" + date + "</a>");
         }
 
         //Increment total counter which informs when all data is loaded
@@ -74,7 +68,7 @@ function loadNode(num){
                 for (i = 1; i <= showed; i++){
                     $("#node" + i).slideDown('slow');
                 }
-                $("#archive").slideDown('slow', function(){
+                $("nav").slideDown('slow', function(){
                     if (path != ''){
                         //Scroll to selected (url/p1) anchor
                         $("html, body").animate({scrollTop: $("#node" + path.split('p')[1]).offset().top}, 'medium');
@@ -94,11 +88,11 @@ function loadOne(num, goTop){
     window.history.replaceState("Node" + num, "Node " + num, "/?" + num);
     //Need to parseInt because right up it grabs path.split
     backup = parseInt(num); //current location (for prev/next & goBack), goBack() sets it to 0
-    //Hide header, all non-related sections, readMoreButton
+    //Hide header, all non-related auticles, readMoreButton
     $("header").slideUp('slow');
-    //Momentarily hide all sections except current and +-1
-    $("section:not(#node" + num + "):not(#node" + num + " #full):not(#node" + (num-1) + "):not(#node" + (num+1) + ")").hide();
-    //Smoothly hide +-1 sections
+    //Momentarily hide all articles except current and +-1
+    $("article:not(#node" + num + "):not(#node" + num + " #afterface):not(#node" + (num-1) + "):not(#node" + (num+1) + ")").hide();
+    //Smoothly hide +-1 articles
     $("#node" + (num-1)).slideUp('slow');
     $("#node" + (num+1)).slideUp('slow');
     $(".readMoreButton").fadeOut('slow');
@@ -125,15 +119,15 @@ function loadOne(num, goTop){
     $("html,body").animate({scrollTop: 0}, 'medium');
     //If gone from path - scroll to the very UP
     if (goTop == false){
-        //Show #node and #full, as well as scroll at the top
+        //Show #node and #afterface, as well as scroll at the top
         $("#node" + num).slideDown('slow', function(){
-            $("#node" + num + " #full").slideDown('slow', function(){
-                $("html, body").animate({scrollTop: $("#node" + (num) + " #full").offset().top}, 'medium');
+            $("#node" + num + " #afterface").slideDown('slow', function(){
+                $("html, body").animate({scrollTop: $("#node" + (num) + " #afterface").offset().top}, 'medium');
             });
         });
     } else {
         $("#node" + num).slideDown('slow');
-        $("#node" + num + " #full").slideDown('slow');
+        $("#node" + num + " #afterface").slideDown('slow');
     }
 }
 
@@ -142,7 +136,7 @@ function goBack(){
     lbackup = backup
     //Change URL back to item place
     window.history.replaceState("Place" + lbackup, "Place " + lbackup, "/?p" + lbackup);
-    //Show header, .readMoreButtons, #archive
+    //Show header, .readMoreButtons, navigation
     $(".readMoreButton").fadeIn('slow');
     $("header").slideDown('slow', function(){
         //Scroll to the top of node[backup] only after [header/.readMoreButton] were shown
@@ -150,14 +144,14 @@ function goBack(){
         //Zero backup variable (to allow scrolling)
         backup = 0;
     });
-    $("#archive").slideDown('slow');
+    $("nav").slideDown('slow');
     //Show all the nodes that were showed before
     for (i = 1; i <= showed; i++){
         //Show only #node part
         $("#node" + i).slideDown('slow');
     }
-    //Hide #full part, all the buttons [back,download,previous,next]
-    $("#node" + lbackup + " #full").slideUp('slow');
+    //Hide #afterface part, all the buttons [back,download,previous,next]
+    $("#node" + lbackup + " #afterface").slideUp('slow');
     $("#back").fadeOut('slow');
     $("#download").fadeOut('slow');
     $("#previous").fadeOut('slow');

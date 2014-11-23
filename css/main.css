@@ -8,25 +8,25 @@ body {
     background: url("../images/bg.png") repeat;
 }
 
-section a:link {
+article a:link {
     color: #a00;
     text-decoration: none;
 }
-section#archive {
+nav {
     margin: 1em auto;
     text-align: center;
     font-weight: bold;
 }
-section#archive a {
+nav a {
     margin: auto .5em;
 }
-section a:visited {
+article a:visited {
     color: #fa8;
 }
-section a:hover {
+article a:hover {
     color: #f50;
 }
-section a:active {
+article a:active {
     color: #f90;
 }
 
@@ -110,7 +110,7 @@ header p {
     text-align: center;
 }
 
-section {
+article {
     font-family: 'Neucha';
 }
 
@@ -136,7 +136,7 @@ sup {
     font-size: 1.5em;
 }
 
-section img {
+article img {
     min-height: 6em;
     max-height: 20em;
     min-width: 15%;
