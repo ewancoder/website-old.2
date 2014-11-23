@@ -33,6 +33,11 @@ blockquote {
     color: #050;
 }
 
+blockquote::first-letter {
+    font-size: 3em;
+    color: #a00;
+}
+
 a:link {
     color: #a00;
     text-decoration: none;
