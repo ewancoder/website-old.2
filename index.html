@@ -10,11 +10,13 @@
     <base target="_blank" />
   </head>
   <body>
-    <a class='button' id='previous' onclick='goPrevious()' href='javascript:void(0);' hidden><i class="fa fa-mail-reply fa-3x"></i></a>
-    <a class='button' id='next' onclick='goNext()' href='javascript:void(0);' hidden><i class="fa fa-mail-forward fa-3x"></i></a>
-    <a class='button' id='back' onclick='goBack()' href='javascript:void(0);' hidden><i class="fa fa-home fa-3x"></i></a>
-    <a class='button' id='download' hidden><i class="fa fa-download fa-3x"></i></a>
-    <p id='description' hidden></p>
+    <section id='overlays'>
+      <a class='button' id='previous' onclick='goPrevious()' href='javascript:void(0);' hidden><i class="fa fa-mail-reply fa-3x"></i></a>
+      <a class='button' id='next' onclick='goNext()' href='javascript:void(0);' hidden><i class="fa fa-mail-forward fa-3x"></i></a>
+      <a class='button' id='back' onclick='goBack()' href='javascript:void(0);' hidden><i class="fa fa-home fa-3x"></i></a>
+      <a class='button' id='download' hidden><i class="fa fa-download fa-3x"></i></a>
+      <p id='description' hidden></p>
+    </section>
     <header>
       <h1>Hello there!</h1>
       <img id='slide' src="images/smile.png" alt="My smile" />
