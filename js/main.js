@@ -49,6 +49,7 @@ function loadNode(num){
             $("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch" + nodeExist);
         } else {
             $("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch0");
+            $("#archive").prepend("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>" + date + "</a>");
         }
 
         //Increment total counter which informs when all data is loaded
