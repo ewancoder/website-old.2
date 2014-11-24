@@ -1,7 +1,9 @@
+var DROPBOX = 'https://dl.dropboxusercontent.com/u/70091792/Pages/'
+
 function loadNode(num, lang){
     //num - name of a file (e.g. 15 for 15.md)
     //Get page from Dropbox
-    urlName = 'https://dl.dropboxusercontent.com/u/70091792/Pages/' + num;
+    urlName = DROPBOX + num;
     if (lang != ''){
         urlName = urlName + '.' + lang;
     } else {
@@ -32,7 +34,10 @@ function loadNode(num, lang){
         if (nodeExist != 0){
             $("<article id='node" + (count - num + 1) + "' hidden><hr/><section id='preface'>" + preface + "</section></article>").insertAfter("#" + lang + " #node" + nodeExist);
         } else {
-            $("main").append("<section id='" + lang + "' hidden><article id='node" + (count - num + 1) + "' hidden><hr/><section id='preface'>" + preface + "</section></article></section>");
+            if ($("section#" + lang).length == 0){
+                $("main").append("<section id='" + lang + "' hidden></section>");
+            }
+            $("section#" + lang).prepend("<article id='node" + (count - num + 1) + "' hidden><hr/><section id='preface'>" + preface + "</section></article>");
         }
         //Wrap title in fancy link
         $("#" + lang + " #node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>");
@@ -76,6 +81,7 @@ function loadNode(num, lang){
                 if (showed < 3){
                     showed = 3;
                 }
+                $("section#" + clang).show();
                 for (i = 1; i <= showed; i++){
                     $("#node" + i).slideDown('slow');
                 }
@@ -108,7 +114,7 @@ function loadOne(num, goTop){
     $("#node" + (num+1)).slideUp('slow');
     $(".readMoreButton").fadeOut('slow');
     //Change #download button link to current node
-    $("#download").attr("href", "https://dl.dropboxusercontent.com/u/70091792/Pages/" + (count - num + 1) + ".md");
+    $("#download").attr("href", DROPBOX + (count - num + 1) + ".md");
     //Show #download and #back buttons
     $("#back").fadeIn('slow');
     $("#download").fadeIn('slow');
@@ -200,7 +206,7 @@ path = location.search;
 $(window).load(function(){
     //Load count of nodes generated outside by server-side or manually
     $.ajax({
-        url: 'https://dl.dropboxusercontent.com/u/70091792/Pages/count',
+        url: DROPBOX + 'count',
         type: 'get',
         dataType: 'html',
         async: true
