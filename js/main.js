@@ -1,8 +1,10 @@
+var DROPBOX = 'https://dl.dropboxusercontent.com/u/70091792/Pages/';
+
 function loadNode(num){
     //num - name of a file (e.g. 15 for 15.md)
     //Get page from Dropbox
     $.ajax({
-        url: 'https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md',
+        url: DROPBOX + num + '.md',
         type: 'get',
         dataType: 'html',
         async: true
@@ -97,7 +99,7 @@ function loadOne(num, goTop){
     $("#node" + (num+1)).slideUp('slow');
     $(".readMoreButton").fadeOut('slow');
     //Change #download button link to current node
-    $("#download").attr("href", "https://dl.dropboxusercontent.com/u/70091792/Pages/" + (count - num + 1) + ".md");
+    $("#download").attr("href", DROPBOX + (count - num + 1) + ".md");
     //Show #download and #back buttons
     $("#back").fadeIn('slow');
     $("#download").fadeIn('slow');
@@ -188,7 +190,7 @@ path = location.search;
 $(window).load(function(){
     //Load count of nodes generated outside by server-side or manually
     $.ajax({
-        url: 'https://dl.dropboxusercontent.com/u/70091792/Pages/count',
+        url: DROPBOX + 'count',
         type: 'get',
         dataType: 'html',
         async: true
