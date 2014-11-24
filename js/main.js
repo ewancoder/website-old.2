@@ -32,7 +32,7 @@ function loadNode(num, lang){
         if (nodeExist != 0){
             $("<article id='node" + (count - num + 1) + "' hidden><hr/><section id='preface'>" + preface + "</section></article>").insertAfter("#" + lang + " #node" + nodeExist);
         } else {
-            $("main").append("<section id='" + lang + "'><article id='node" + (count - num + 1) + "' hidden><hr/><section id='preface'>" + preface + "</section></article></section>");
+            $("main").append("<section id='" + lang + "' hidden><article id='node" + (count - num + 1) + "' hidden><hr/><section id='preface'>" + preface + "</section></article></section>");
         }
         //Wrap title in fancy link
         $("#" + lang + " #node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>");
