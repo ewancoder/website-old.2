@@ -1,8 +1,15 @@
-function loadNode(num){
+function loadNode(num, lang){
     //num - name of a file (e.g. 15 for 15.md)
     //Get page from Dropbox
+    urlName = 'https://dl.dropboxusercontent.com/u/70091792/Pages/' + num;
+    if (lang != ''){
+        urlName = urlName + '.' + lang;
+    } else {
+        lang = 'en';
+    }
+    urlName = urlName + '.md';
     $.ajax({
-        url: 'https://dl.dropboxusercontent.com/u/70091792/Pages/' + num + '.md',
+        url: urlName,
         type: 'get',
         dataType: 'html',
         async: true
@@ -16,34 +23,38 @@ function loadNode(num){
         //Asynchronous: find out which ID already exists above current
         nodeExist = 0;
         for (i = 1; i <= (count - num); i++){
-            if ($("#node" + i).length != 0){
+            if ($("#" + lang + " #node" + i).length != 0){
                 nodeExist = i;
             }
         }
 
         //Add node
         if (nodeExist != 0){
-            $("<article id='node" + (count - num + 1) + "' hidden><hr/><section id='preface'>" + preface + "</section></article>").insertAfter("#node" + nodeExist);
+            $("<article id='node" + (count - num + 1) + "' hidden><hr/><section id='preface'>" + preface + "</section></article>").insertAfter("#" + lang + " #node" + nodeExist);
         } else {
-            $("main").prepend("<article id='node" + (count - num + 1) + "' hidden><hr/><section id='preface'>" + preface + "</section></article>");
+            $("main").append("<section id='" + lang + "'><article id='node" + (count - num + 1) + "' hidden><hr/><section id='preface'>" + preface + "</section></article></section>");
         }
         //Wrap title in fancy link
-        $("#node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>");
+        $("#" + lang + " #node" + (count - num + 1) + " h1").wrap("<a onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>");
         if (afterface != undefined){
             //If there IS "Read more" button, make button + add #afterface content
-            $("#node" + (count - num + 1)).append("<a class='readMoreButton' onclick='loadOne(" + (count - num + 1) + ", false)' href='javascript:void(0);'>Read more</a>");
-            $("#node" + (count - num + 1)).append("<section id='afterface' hidden>" + afterface + "</article>");
+            if (lang == 'ru'){
+                btnCaption = 'Читать дальше';
+            } else {
+                btnCaption = 'Read more';
+            }
+            $("#" + lang + " #node" + (count - num + 1)).append("<a class='readMoreButton' onclick='loadOne(" + (count - num + 1) + ", false)' href='javascript:void(0);'>" + btnCaption + "</a>");
+            $("#" + lang + " #node" + (count - num + 1)).append("<section id='afterface' hidden>" + afterface + "</article>");
         }
 
         //Get date and caption for archive (navigation) construction
-        date = $("#node" + (count - num + 1) + " h1 sup").text().replace('[', '').replace(']', '');
-        caption = $("#node" + (count - num + 1) + " h1").text().split(" [")[0];
+        date = $("#" + lang + " #node" + (count - num + 1) + " h1 sup").text().replace('[', '').replace(']', '');
+        caption = $("#" + lang + " #node" + (count - num + 1) + " h1").text().split(" [")[0];
         //Construct navigation (<nav>) above all the nodes
         if (nodeExist != 0){
             $("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch" + nodeExist);
         } else {
-            $("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>" + date + "</a>").insertAfter("#arch0");
-            $("nav").prepend("<a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>" + date + "</a>");
+            $("nav").append("<section id='" + lang + "' hidden><a id='arch" + (count - num + 1) + "' class='hint--bottom' data-hint='" + caption + "' onclick='loadOne(" + (count - num + 1) + ", true)' href='javascript:void(0);'>" + date + "</a></section>");
         }
 
         //Increment total counter which informs when all data is loaded
@@ -68,7 +79,7 @@ function loadNode(num){
                 for (i = 1; i <= showed; i++){
                     $("#node" + i).slideDown('slow');
                 }
-                $("nav").slideDown('slow', function(){
+                $("nav #" + clang).slideDown('slow', function(){
                     if (path != ''){
                         //Scroll to selected (url/p1) anchor
                         $("html, body").animate({scrollTop: $("#node" + path.split('p')[1]).offset().top}, 'medium');
@@ -182,6 +193,7 @@ var backup = -1; //If 0, scrolling won't trigger anything [single is loaded]
 //Set to "-1" to prevent scrolling while page not loaded
 var loaded = 0; //All items that has been downloaded from Dropbox [counter for async]
 var showed = 3; //Initial number of showed nodes
+var clang = 'en'; //Standard language
 
 path = location.search;
 
@@ -196,7 +208,8 @@ $(window).load(function(){
         count = parseInt(data);
         //Load ALL nodes at once
         for (i = count; i > 0; i--){
-            loadNode(i); //i - name of file (15.md)
+            loadNode(i, ''); //i - name of file (15.md)
+            loadNode(i, 'ru'); //Load russian note
         }
     });
 });
