@@ -10,6 +10,8 @@ echo -e "\n-> peal.sh"
 curl -O https://raw.githubusercontent.com/ewancoder/eal/master/peal.sh
 echo -e "\n-> install.sh"
 curl -O https://raw.githubusercontent.com/ewancoder/eal/master/install.sh
+echo -e "\n-> makepkg.patch"
+curl -O https://raw.githubusercontent.com/ewancoder/eal/master/makepkg.patch
 echo -e "\nDownload complete. Making install.sh executable...\n"
 chmod +x install.sh
 echo -e "Now prepare your partitions, change all constants in ceal.sh file and execute ./install.sh to start installation\n"
