@@ -39,6 +39,11 @@ blockquote::first-letter {
     color: #a00;
 }
 
+code {
+    background-color: black;
+    color: #ff0;
+}
+
 a:link {
     color: #a00;
     text-decoration: none;
